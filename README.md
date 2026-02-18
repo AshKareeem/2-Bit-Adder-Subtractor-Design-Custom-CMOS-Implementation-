@@ -52,11 +52,38 @@ To ensure correct logic switching threshold ($V_{M} \approx V_{DD}/2$), the Pull
 
 ### 2. System Architecture
 <div align="center">
-  <img src="Schematics/Top_Level_Schematic.png" alt="2-Bit Adder Subtractor Schematic" width="800">
+  <img src="Schematics/2-Bit Adder-Subtractor_Block/Add-Sub_Sch.png" alt="2-Bit Adder Subtractor Schematic" width="800">
 </div>
 
 ---
 
+## 🔢 Truth Tables & Logic
+
+### 1. System Operation Modes
+The circuit behavior is determined by the control signal `M` (connected to $C_{in}$ of the LSB and the XOR inputs).
+
+| Mode ($M$) | Function | Operation | Logic Description |
+| :---: | :---: | :---: | :--- |
+| **0** | **ADD** | $A + B$ | Standard binary addition. Carry ripples from LSB to MSB. |
+| **1** | **SUB** | $A - B$ | 2's Complement Subtraction ($A + \bar{B} + 1$). |
+
+### 2. 1-Bit Full Adder Logic
+The 2-bit system is constructed by cascading two of these Full Adder blocks.
+<div align="center">
+
+| $A$ | $B$ | $C_{in}$ | Sum ($S$) | $C_{out}$ |
+| :---: | :---: | :---: | :---: | :---: |
+| 0 | 0 | 0 | **0** | **0** |
+| 0 | 0 | 1 | **1** | **0** |
+| 0 | 1 | 0 | **1** | **0** |
+| 0 | 1 | 1 | **0** | **1** |
+| 1 | 0 | 0 | **1** | **0** |
+| 1 | 0 | 1 | **0** | **1** |
+| 1 | 1 | 0 | **0** | **1** |
+| 1 | 1 | 1 | **1** | **1** |
+
+</div>
+---
 ## 🧪 Simulation & Results
 
 All simulations were performed in **Synopsys Custom Compiler** using transient analysis.
@@ -73,8 +100,8 @@ This ensures that every possible binary combination is covered in a single trans
 The graph below demonstrates the circuit performing both addition and subtraction correctly as the inputs cycle through their states.
 
 <div align="center">
-  <img src="Simulation/Waveform_Results.png" alt="Simulation Waveforms" width="800">
-  <p><em>Transient Analysis Output: Green = Inputs, Red = Sum/Difference Output</em></p>
+  <img src="Schematics/2-Bit Adder-Subtractor_Block/Add-Sub_TB_Wave.png" alt="Simulation Waveforms" width="800">
+  <!-- <p><em>Transient Analysis Output: Green = Inputs, Red = Sum/Difference Output</em></p> -->
 </div>
 
 ---
